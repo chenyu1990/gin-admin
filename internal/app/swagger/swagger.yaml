@@ -45,12 +45,18 @@ definitions:
       error:
         $ref: '#/definitions/schema.ErrorItem'
         description: 错误项
-        type: object
     type: object
   schema.IDResult:
     properties:
       id:
         type: string
+    type: object
+  schema.ListResult:
+    properties:
+      list:
+        type: object
+      pagination:
+        $ref: '#/definitions/schema.PaginationResult'
     type: object
   schema.LoginCaptcha:
     properties:
@@ -93,9 +99,10 @@ definitions:
   schema.Menu:
     properties:
       actions:
-        $ref: '#/definitions/schema.MenuActions'
         description: 动作列表
-        type: object
+        items:
+          $ref: '#/definitions/schema.MenuAction'
+        type: array
       created_at:
         description: 创建时间
         type: string
@@ -155,9 +162,10 @@ definitions:
         description: 动作名称
         type: string
       resources:
-        $ref: '#/definitions/schema.MenuActionResources'
         description: 资源列表
-        type: object
+        items:
+          $ref: '#/definitions/schema.MenuActionResource'
+        type: array
     required:
     - code
     - menu_id
@@ -181,24 +189,18 @@ definitions:
     - method
     - path
     type: object
-  schema.MenuActionResources:
-    items:
-      $ref: '#/definitions/schema.MenuActionResource'
-    type: array
-  schema.MenuActions:
-    items:
-      $ref: '#/definitions/schema.MenuAction'
-    type: array
   schema.MenuTree:
     properties:
       actions:
-        $ref: '#/definitions/schema.MenuActions'
         description: 动作列表
-        type: object
+        items:
+          $ref: '#/definitions/schema.MenuAction'
+        type: array
       children:
-        $ref: '#/definitions/schema.MenuTrees'
         description: 子级树
-        type: object
+        items:
+          $ref: '#/definitions/schema.MenuTree'
+        type: array
       icon:
         description: 菜单图标
         type: string
@@ -227,10 +229,15 @@ definitions:
         description: 状态(1:启用 2:禁用)
         type: integer
     type: object
-  schema.MenuTrees:
-    items:
-      $ref: '#/definitions/schema.MenuTree'
-    type: array
+  schema.PaginationResult:
+    properties:
+      current:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+    type: object
   schema.Role:
     properties:
       created_at:
@@ -249,9 +256,10 @@ definitions:
         description: 角色名称
         type: string
       role_menus:
-        $ref: '#/definitions/schema.RoleMenus'
         description: 角色菜单列表
-        type: object
+        items:
+          $ref: '#/definitions/schema.RoleMenu'
+        type: array
       sequence:
         description: 排序值
         type: integer
@@ -285,14 +293,6 @@ definitions:
     - menu_id
     - role_id
     type: object
-  schema.RoleMenus:
-    items:
-      $ref: '#/definitions/schema.RoleMenu'
-    type: array
-  schema.Roles:
-    items:
-      $ref: '#/definitions/schema.Role'
-    type: array
   schema.StatusResult:
     properties:
       status:
@@ -341,9 +341,10 @@ definitions:
         description: 用户名
         type: string
       user_roles:
-        $ref: '#/definitions/schema.UserRoles'
         description: 角色授权
-        type: object
+        items:
+          $ref: '#/definitions/schema.UserRole'
+        type: array
     required:
     - real_name
     - status
@@ -356,9 +357,10 @@ definitions:
         description: 真实姓名
         type: string
       roles:
-        $ref: '#/definitions/schema.Roles'
         description: 角色列表
-        type: object
+        items:
+          $ref: '#/definitions/schema.Role'
+        type: array
       user_id:
         description: 用户ID
         type: string
@@ -378,10 +380,6 @@ definitions:
         description: 用户ID
         type: string
     type: object
-  schema.UserRoles:
-    items:
-      $ref: '#/definitions/schema.UserRole'
-    type: array
   schema.UserShow:
     properties:
       created_at:
@@ -415,10 +413,9 @@ info:
   contact:
     email: tiannianshou@gmail.com
     name: LyricTian
-  description: RBAC scaffolding based on GIN + GORM/MONGO + CASBIN + WIRE.
-  license: {}
+  description: RBAC scaffolding based on GIN + GORM + CASBIN + WIRE.
   title: gin-admin
-  version: 6.3.1
+  version: 7.0.0
 paths:
   /api/v1/demos:
     get:
@@ -441,11 +438,16 @@ paths:
         type: string
       responses:
         "200":
-          description: 查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}
+          description: 查询结果
           schema:
-            items:
-              $ref: '#/definitions/schema.Demo'
-            type: array
+            allOf:
+            - $ref: '#/definitions/schema.ListResult'
+            - properties:
+                list:
+                  items:
+                    $ref: '#/definitions/schema.Demo'
+                  type: array
+              type: object
         "401":
           description: '{error:{code:0,message:未授权}}'
           schema:
@@ -664,11 +666,16 @@ paths:
         type: string
       responses:
         "200":
-          description: 查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}
+          description: 查询结果
           schema:
-            items:
-              $ref: '#/definitions/schema.Menu'
-            type: array
+            allOf:
+            - $ref: '#/definitions/schema.ListResult'
+            - properties:
+                list:
+                  items:
+                    $ref: '#/definitions/schema.Menu'
+                  type: array
+              type: object
         "401":
           description: '{error:{code:0,message:未授权}}'
           schema:
@@ -725,11 +732,16 @@ paths:
         type: string
       responses:
         "200":
-          description: 查询结果：{list:列表数据}
+          description: 查询结果
           schema:
-            items:
-              $ref: '#/definitions/schema.MenuTree'
-            type: array
+            allOf:
+            - $ref: '#/definitions/schema.ListResult'
+            - properties:
+                list:
+                  items:
+                    $ref: '#/definitions/schema.MenuTree'
+                  type: array
+              type: object
         "401":
           description: '{error:{code:0,message:未授权}}'
           schema:
@@ -889,9 +901,16 @@ paths:
     get:
       responses:
         "200":
-          description: 查询结果：{list:菜单树}
+          description: 查询结果
           schema:
-            $ref: '#/definitions/schema.Menu'
+            allOf:
+            - $ref: '#/definitions/schema.ListResult'
+            - properties:
+                list:
+                  items:
+                    $ref: '#/definitions/schema.MenuTree'
+                  type: array
+              type: object
         "401":
           description: '{error:{code:0,message:未授权}}'
           schema:
@@ -1074,11 +1093,16 @@ paths:
         type: integer
       responses:
         "200":
-          description: 查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}
+          description: 查询结果
           schema:
-            items:
-              $ref: '#/definitions/schema.Role'
-            type: array
+            allOf:
+            - $ref: '#/definitions/schema.ListResult'
+            - properties:
+                list:
+                  items:
+                    $ref: '#/definitions/schema.Role'
+                  type: array
+              type: object
         "401":
           description: '{error:{code:0,message:未授权}}'
           schema:
@@ -1135,11 +1159,16 @@ paths:
         type: integer
       responses:
         "200":
-          description: 查询结果：{list:角色列表}
+          description: 查询结果
           schema:
-            items:
-              $ref: '#/definitions/schema.Role'
-            type: array
+            allOf:
+            - $ref: '#/definitions/schema.ListResult'
+            - properties:
+                list:
+                  items:
+                    $ref: '#/definitions/schema.Role'
+                  type: array
+              type: object
         "400":
           description: '{error:{code:0,message:未知的查询类型}}'
           schema:
@@ -1328,11 +1357,16 @@ paths:
         type: integer
       responses:
         "200":
-          description: 查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}
+          description: 查询结果
           schema:
-            items:
-              $ref: '#/definitions/schema.UserShow'
-            type: array
+            allOf:
+            - $ref: '#/definitions/schema.ListResult'
+            - properties:
+                list:
+                  items:
+                    $ref: '#/definitions/schema.UserShow'
+                  type: array
+              type: object
         "401":
           description: '{error:{code:0,message:未授权}}'
           schema:

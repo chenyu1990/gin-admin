@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/LyricTian/gin-admin/v6/pkg/auth"
+	"github.com/LyricTian/gin-admin/v7/pkg/auth"
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
@@ -153,7 +153,7 @@ func (a *JWTAuth) ParseUserID(ctx context.Context, tokenString string) (string, 
 	err = a.callStore(func(store Storer) error {
 		if exists, err := store.Check(ctx, tokenString); err != nil {
 			return err
-		} else if !exists {
+		} else if exists {
 			return auth.ErrInvalidToken
 		}
 		return nil

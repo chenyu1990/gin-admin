@@ -22,7 +22,6 @@ var doc = `{
             "name": "LyricTian",
             "email": "tiannianshou@gmail.com"
         },
-        "license": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -65,12 +64,24 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}",
+                        "description": "查询结果",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schema.Demo"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.ListResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.Demo"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "401": {
@@ -418,12 +429,24 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}",
+                        "description": "查询结果",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schema.Menu"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.ListResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.Menu"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "401": {
@@ -516,12 +539,24 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "查询结果：{list:列表数据}",
+                        "description": "查询结果",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schema.MenuTree"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.ListResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.MenuTree"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "401": {
@@ -779,9 +814,24 @@ var doc = `{
                 "summary": "查询当前用户菜单树",
                 "responses": {
                     "200": {
-                        "description": "查询结果：{list:菜单树}",
+                        "description": "查询结果",
                         "schema": {
-                            "$ref": "#/definitions/schema.Menu"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.ListResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.MenuTree"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "401": {
@@ -1072,12 +1122,24 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}",
+                        "description": "查询结果",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schema.Role"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.ListResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.Role"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "401": {
@@ -1170,12 +1232,24 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "查询结果：{list:角色列表}",
+                        "description": "查询结果",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schema.Role"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.ListResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.Role"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -1475,12 +1549,24 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "查询结果：{list:列表数据,pagination:{current:页索引,pageSize:页大小,total:总数量}}",
+                        "description": "查询结果",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schema.UserShow"
-                            }
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.ListResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.UserShow"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "401": {
@@ -1835,7 +1921,6 @@ var doc = `{
             "properties": {
                 "error": {
                     "description": "错误项",
-                    "type": "object",
                     "$ref": "#/definitions/schema.ErrorItem"
                 }
             }
@@ -1845,6 +1930,17 @@ var doc = `{
             "properties": {
                 "id": {
                     "type": "string"
+                }
+            }
+        },
+        "schema.ListResult": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "object"
+                },
+                "pagination": {
+                    "$ref": "#/definitions/schema.PaginationResult"
                 }
             }
         },
@@ -1911,8 +2007,10 @@ var doc = `{
             "properties": {
                 "actions": {
                     "description": "动作列表",
-                    "type": "object",
-                    "$ref": "#/definitions/schema.MenuActions"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MenuAction"
+                    }
                 },
                 "created_at": {
                     "description": "创建时间",
@@ -1994,8 +2092,10 @@ var doc = `{
                 },
                 "resources": {
                     "description": "资源列表",
-                    "type": "object",
-                    "$ref": "#/definitions/schema.MenuActionResources"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MenuActionResource"
+                    }
                 }
             }
         },
@@ -2024,30 +2124,22 @@ var doc = `{
                 }
             }
         },
-        "schema.MenuActionResources": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/schema.MenuActionResource"
-            }
-        },
-        "schema.MenuActions": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/schema.MenuAction"
-            }
-        },
         "schema.MenuTree": {
             "type": "object",
             "properties": {
                 "actions": {
                     "description": "动作列表",
-                    "type": "object",
-                    "$ref": "#/definitions/schema.MenuActions"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MenuAction"
+                    }
                 },
                 "children": {
                     "description": "子级树",
-                    "type": "object",
-                    "$ref": "#/definitions/schema.MenuTrees"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.MenuTree"
+                    }
                 },
                 "icon": {
                     "description": "菜单图标",
@@ -2087,10 +2179,18 @@ var doc = `{
                 }
             }
         },
-        "schema.MenuTrees": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/schema.MenuTree"
+        "schema.PaginationResult": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
             }
         },
         "schema.Role": {
@@ -2123,8 +2223,10 @@ var doc = `{
                 },
                 "role_menus": {
                     "description": "角色菜单列表",
-                    "type": "object",
-                    "$ref": "#/definitions/schema.RoleMenus"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.RoleMenu"
+                    }
                 },
                 "sequence": {
                     "description": "排序值",
@@ -2164,18 +2266,6 @@ var doc = `{
                     "description": "角色ID",
                     "type": "string"
                 }
-            }
-        },
-        "schema.RoleMenus": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/schema.RoleMenu"
-            }
-        },
-        "schema.Roles": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/schema.Role"
             }
         },
         "schema.StatusResult": {
@@ -2251,8 +2341,10 @@ var doc = `{
                 },
                 "user_roles": {
                     "description": "角色授权",
-                    "type": "object",
-                    "$ref": "#/definitions/schema.UserRoles"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.UserRole"
+                    }
                 }
             }
         },
@@ -2265,8 +2357,10 @@ var doc = `{
                 },
                 "roles": {
                     "description": "角色列表",
-                    "type": "object",
-                    "$ref": "#/definitions/schema.Roles"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Role"
+                    }
                 },
                 "user_id": {
                     "description": "用户ID",
@@ -2293,12 +2387,6 @@ var doc = `{
                     "description": "用户ID",
                     "type": "string"
                 }
-            }
-        },
-        "schema.UserRoles": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/schema.UserRole"
             }
         },
         "schema.UserShow": {
@@ -2362,12 +2450,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "6.3.1",
+	Version:     "7.0.0",
 	Host:        "",
 	BasePath:    "/",
 	Schemes:     []string{"http", "https"},
 	Title:       "gin-admin",
-	Description: "RBAC scaffolding based on GIN + GORM/MONGO + CASBIN + WIRE.",
+	Description: "RBAC scaffolding based on GIN + GORM + CASBIN + WIRE.",
 }
 
 type s struct{}
